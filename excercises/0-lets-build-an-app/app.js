@@ -2,9 +2,21 @@ var React = require('react');
 
 var fetchUsers = (cb) => {
   setTimeout( () => {
-    cb([{name: 'Ryan'}, {name: 'Marc'}, {name: 'Mark'}]);
+    cb([{name: 'Jeremy'}, {name: 'Shannon'}]);
   },500);
 };
+
+var Header = React.createClass({
+
+  render () {
+    return (
+      <div style={headerStyle}>
+        <h1 >Bloc Metrics</h1>
+        <h3>Metrics for Bloc Jams</h3>
+      </div>
+    );
+  }
+});
 
 var App = React.createClass({
 
@@ -33,11 +45,12 @@ var App = React.createClass({
     if (!this.state.loaded)
     return <div>Loading</div>;
     var users = this.state.users.map((user) => {
-      return <li onClick= {this.deleteUsers.bind(this, user)}>{user.name}</li>;
+      return <li key={user.name} onClick= {this.deleteUsers.bind(this, user)}>{user.name}</li>;
     });
     return (
-      <div>
-        <h1>Hello</h1>
+      <div style={headerStyle}>
+        <Header/>
+        <h1>Hello World</h1>
         <ul>
           {users}
         </ul>
@@ -45,5 +58,15 @@ var App = React.createClass({
     );
  }
 });
+
+var headerStyle = {
+  color: 'blue',
+  display: 'block',
+  position: 'fixed',
+  top: '0',
+  width: '100%',
+  alignContent: 'center'
+
+};
 
 React.render(<App/>, document.body);
