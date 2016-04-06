@@ -1,10 +1,44 @@
 var React = require('react');
 
-var fetchUsers = (cb) => {
+var fetchData = (cb) => {
   setTimeout( () => {
     cb([{name: 'Jeremy'}, {name: 'Shannon'}]);
   },500);
 };
+
+var DATA = [
+  {clickTime:"10/21/15 03:45PM" , song: 'pink'},
+  {clickTime:"10/21/15 03:49pm" , song: 'red'},
+  {clickTime:"10/21/15 03:57pm" , song: 'blue'},
+  {clickTime:"10/21/15 04:23pm" , song: 'green'},
+  {clickTime:"10/21/15 04:28pm" , song: 'green'},
+  {clickTime:"10/23/15 03:49pm" , song: 'red'},
+  {clickTime:"10/23/15 03:55pm" , song: 'blue'},
+  {clickTime:"10/25/15 12:34pm" , song: 'green'},
+  {clickTime:"10/25/15 12:42pm" , song: 'red'},
+  {clickTime:"10/26/15 01:23pm" , song: 'pink'},
+  {clickTime:"10/26/15 03:49pm" , song: 'blue'},
+  {clickTime:"10/27/15 12:45PM" , song: 'green'},
+  {clickTime:"10/27/15 12:49pm" , song: 'red'},
+  {clickTime:"10/27/15 12:57pm" , song: 'blue'},
+  {clickTime:"10/28/15 08:23pm" , song: 'red'},
+  {clickTime:"10/28/15 08:28pm" , song: 'green'},
+  {clickTime:"10/30/15 02:49pm" , song: 'red'},
+  {clickTime:"10/30/15 02:55pm" , song: 'blue'},
+  {clickTime:"10/31/15 12:34pm" , song: 'green'},
+  {clickTime:"10/31/15 12:42pm" , song: 'red'},
+  {clickTime:"11/02/15 01:23pm" , song: 'red'},
+  {clickTime:"11/02/15 03:49pm" , song: 'pink'},
+  {clickTime:"11/02/15 08:23pm" , song: 'red'},
+  {clickTime:"11/05/15 12:28pm" , song: 'green'},
+  {clickTime:"11/05/15 02:49pm" , song: 'red'},
+  {clickTime:"11/07/15 09:45am" , song: 'blue'},
+  {clickTime:"11/07/15 09:49am" , song: 'green'},
+  {clickTime:"11/07/15 12:42pm" , song: 'red'},
+  {clickTime:"11/07/15 01:23pm" , song: 'red'},
+  {clickTime:"11/07/15 03:49pm" , song: 'pink'}
+];
+
 
 // var login = React.createClass({
 //
@@ -22,6 +56,68 @@ var fetchUsers = (cb) => {
 //     }
 // });
 
+var dataComponent1 = React.createClass ({
+
+
+
+  render () {
+    // var playClicks = DATA;
+    // var clickTimes = this.props.DATA.clickTime;
+
+    return (
+      <div className={chart1}>
+
+      </div>
+    );
+  }
+
+});
+
+var dataComponent2 = React.createClass ({
+
+  getDefaultProps () {
+    return {
+      data:DATA,
+      chartWidth:400,
+      chartHeight:300
+    }
+  },
+
+  getInitialState () {
+    return {
+      data: DATA,
+      loaded: false
+    };
+  },
+
+  componentDidMount () {
+    fetchData((data) => {
+      this.setState({
+        metrics,
+        loaded: true
+      });
+    });
+  },
+
+
+  render () {
+    return this.props.metrics.map((metric, index)=> {
+      return (
+        <div key={index}>
+          <p>
+            {metric.song}
+          </p>
+        </div>
+      );
+    });
+
+
+  }
+
+});
+
+
+
 var Header = React.createClass({
 
   render () {
@@ -36,33 +132,35 @@ var Header = React.createClass({
 
 var App = React.createClass({
 
+  getDefaultProps () {
+    return {
+      data:DATA,
+      chartWidth:400,
+      chartHeight:300
+    }
+  },
+
   getInitialState () {
     return {
-      users: [],
+      data: DATA,
       loaded: false
     };
   },
 
   componentDidMount () {
-    fetchUsers((users) => {
+    fetchData((data) => {
       this.setState({
-        users,
+        data: DATA,
         loaded: true
       });
     });
   },
-  deleteUsers (target) {
-    var users = this.state.users;
-    var withoutUser = users.filter(user => user.name !== target.name);
-    this.setState({users: withoutUser});
-  },
+
 
   render () {
     if (!this.state.loaded)
     return <div>Loading</div>;
-    var users = this.state.users.map((user) => {
-      return <li key={user.name} onClick= {this.deleteUsers.bind(this, user)}>{user.name}</li>;
-    });
+
     return (
     <div>
       <div style={headerContainerStyle}>
@@ -73,7 +171,7 @@ var App = React.createClass({
         <div style={containerStyle}>
           <h1>Hello World</h1>
           <ul>
-            {users}
+            <dataComponent2/>
           </ul>
         </div>
       </div>
@@ -109,4 +207,4 @@ var headerContainerStyle = {
 
 }
 
-React.render(<App/>, document.body);
+React.render(<App metrics={DATA}/>, document.body);
