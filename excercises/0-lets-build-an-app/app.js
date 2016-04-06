@@ -73,11 +73,12 @@ var dataComponent1 = React.createClass ({
 
 });
 
-var dataComponent2 = React.createClass ({
+var DataComponent2 = React.createClass ({
+
 
   getDefaultProps () {
     return {
-      data:DATA,
+      data: DATA,
       chartWidth:400,
       chartHeight:300
     }
@@ -93,7 +94,7 @@ var dataComponent2 = React.createClass ({
   componentDidMount () {
     fetchData((data) => {
       this.setState({
-        metrics,
+        // metrics,
         loaded: true
       });
     });
@@ -101,16 +102,22 @@ var dataComponent2 = React.createClass ({
 
 
   render () {
-    return this.props.metrics.map((metric, index)=> {
+    var metrics = this.props.metrics.map((metric, index)=> {
       return (
         <div key={index}>
-          <p>
+          <li>
             {metric.song}
-          </p>
+            {metric.clickTime}
+          </li>
         </div>
       );
     });
-
+    return (
+      <div>
+        <h1>Metrics</h1>
+        <ul>{metrics}</ul>
+      </div>
+    );
 
   }
 
@@ -171,7 +178,7 @@ var App = React.createClass({
         <div style={containerStyle}>
           <h1>Hello World</h1>
           <ul>
-            <dataComponent2/>
+            <DataComponent2 metrics={DATA}/>
           </ul>
         </div>
       </div>
